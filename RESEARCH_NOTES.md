@@ -31,7 +31,27 @@ Individual work, CVPR paper template.
 
 **Grading**: critical analysis 20%, gap/originality 20%, report 20%, presentations 20%, implementation + evaluation 15%, proposal 5%.
 
-Older Lecture-1 notes described the project as 20% and a separate 15% paper review. Where those differ from the PDF, follow the PDF. Professor's compute guidance: lightweight models, Colab-friendly, no training from scratch, pretrained inference/evaluation is fine.
+Course outline (`../MSAI6330_Outline_1261.pdf`) weights: Research Paper Analyses 15%, Project 35%, Assignments 20%, Final Exam 30%. Older Lecture-1 notes said project 20%; the outline's 35% is the official figure. How the project PDF's stages map onto the 15% / 35% split is not stated (see below), so confirm with the instructor. Follow the project PDF for deliverables and dates.  Professor's compute guidance: lightweight models, Colab-friendly, no training from scratch, pretrained inference/evaluation is fine.
+
+## 1b. Requirements from the lectures (Notion, read 2026-11-23)
+
+Sources: Lecture 1 (project and paper review), Lecture 5 (baselines and project guidance), Lecture 7 (project structure and schedule). Lectures 2, 3, 4 and 6 had no project instructions. Lecture 1 was only searched for project/paper-review content, not read in full.
+
+**Research paper analysis (15%)**
+- Pick one paper from CVPR / ICCV / ECCV (last 5 years preferred). Write a summary and a critical review: methodology, strengths, weaknesses, improvements. May include a class presentation. The same paper may be used for the project if done thoroughly (Lecture 1).
+- From my own Notion to-do list: check whether the authors hid flaws, whether they really solved the claimed problem, and whether they showed only the good results. Read the reference papers and the code. Look for a review template (OpenReview / ICLR). The professor did not clearly name a template.
+
+**Project**
+- Paper with available code, light enough for Colab. One of: reproduce, re-evaluate with modifications, or apply a novel idea as an extension (Lecture 1). Training from scratch is **not** required; pretrained inference or fine-tuning is fine.
+- **Baselines (Lecture 5)**: a **KNN baseline and a random baseline will be explicitly asked for**. The model must beat both; a model worse than random is unacceptable.
+- **Vision-focused contribution (Lecture 5)**: image captioning is allowed only if the vision component is clear, not purely NLP evaluation.
+- **Good contribution (Lecture 5)**: a motivated hypothesis, then an experiment, then validation. Not random tweaks. Valid types: reproduce and extend, combine two ideas, improve evaluation of under-studied work, propose a new task.
+- **Experiments have two parts (Lecture 7)**: (1) hyperparameter analysis on pretrained models, (2) model design modifications. Failed experiments are welcome in the presentations.
+- **Schedule (Lecture 7)**: choose the paper and idea within about 3 weeks of 21 Nov (about 12 Dec), then about 3 weeks to implement and experiment. Presentation 1 is 5 pages (idea and paper analysis); Presentation 2 is 8 pages, structured like a paper (abstract, introduction, methodology, results). Resources: single GPU / free Colab, pretrained models. Read about 3 papers a week.
+- **Open conflict**: "3 weeks to implement" is shorter than the project PDF's 3 Jan to 30 Jan window (about 4 weeks after the milestone). Follow the PDF dates, but confirm with the instructor.
+- Lecture 7 also asks me to rephrase any AI-written comparison text in Assignment 2. This lines up with the PDF's AI-use declaration.
+
+**How each topic fits these lecture requirements**: see the "Fit with lecture requirements" line in each ranked entry below.
 
 ## 2. My constraints
 
@@ -116,6 +136,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 
 **Time / effort: about 26-40 h topic-specific, about 85-100 h overall (low-medium).** Setup 6-10 h, modification 10-15 h, experiments 10-15 h. Fits comfortably in the PDF timeline with slack. Estimate, not verified.
 
+**Fit with lecture requirements: strong.** Random baseline is 1/num_classes and zero-shot CLIP is the natural reference. A KNN baseline (nearest-neighbour on CLIP image features with a few labelled samples) is easy to add and compares naturally to TDA's cache. The two-part experiment structure maps directly: (1) sweep cache size and thresholds, (2) change the eviction or fusion logic. Clearly vision-focused.
+
 **Code improvement feasibility: High (to verify)**
 - The change point is likely small and isolated (cache insert/update/eviction and the logit-fusion step), so modifications are cheap to implement and test.
 - Hypothesis candidates: entropy- or confidence-aware eviction; behaviour under class-imbalanced / ordered test streams.
@@ -147,6 +169,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 
 **Time / effort: about 26-47 h topic-specific, about 85-107 h overall (medium).** Setup 8-15 h (segmentation evaluation framework), modification 8-12 h, experiments 10-20 h. Experiments scale with the number of benchmarks, so limit to VOC plus one more. Estimate, not verified.
 
+**Fit with lecture requirements: good.** Vision-focused. Hyperparameter analysis is natural (layer choice, resolution, window size) and so is a design change (last-layer attention variant). The weak spot is baselines: a random baseline is trivial (random class per pixel) and a KNN baseline over patch features is awkward but possible (labelled patch features from a few images). **Check with the instructor what counts as KNN and random baselines for segmentation.**
+
 **Code improvement feasibility: Medium-high (to verify)**
 - The change is confined to the last transformer layer, so variants (combining both, multi-scale, windowed, different layers) are easy to prototype.
 - Evaluation harness may be built on a heavy segmentation framework (e.g. mmsegmentation), which could complicate setup on M1. I have not checked this.
@@ -175,6 +199,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 - Interesting real-world application.
 
 **Time / effort: about 30-60 h topic-specific, about 90-120 h overall (medium-high).** Setup 8-20 h (wide range because of the possible CUDA to M1 port), modification 10-15 h, experiments 12-25 h (15 MVTec categories; use a subset). Plan to run the `bottle` test in week 1 to decide Colab vs. M1. Estimate, not verified.
+
+**Fit with lecture requirements: good.** PatchCore is itself a nearest-neighbour method, so the KNN baseline question is partly built in (compare k, coreset ratio, no coreset). Random baseline is 50% AUROC. Hyperparameter analysis (coreset ratio, backbone layers, neighbourhood size) and design modification fit the two-part structure well. Vision-focused.
 
 **Code improvement feasibility: Medium-high (to verify)**
 - Natural knobs: coreset ratio, backbone, layer choice, neighbour scoring; each is a contained change.
@@ -206,6 +232,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 
 **Time / effort: about 35-70 h topic-specific, about 95-130 h overall (high).** Setup 10-20 h (datastore, metrics tooling), modification 10-20 h, experiments 15-30 h (slow generation, so subset evaluation). Heaviest option, and the tightest against the 30 Jan deadline. Estimate, not verified.
 
+**Fit with lecture requirements: mixed.** Lecture 5 explicitly mentions KNN for captioning (retrieve the nearest image and reuse its caption), and SmallCap's retrieval is close to that, so a KNN-caption baseline is natural. Random baseline: random caption from the datastore. The risk is the **vision-focus rule**: the contribution must not be purely NLP-evaluated. A retrieval/image-encoder-side change would count; a decoding or language change would not. ConZIC is more NLP-heavy (BERT sampling), so it is the weaker of the two.
+
 **Code improvement feasibility: Medium (to verify)**
 - SmallCap: retrieval datastore and prompt construction are modular, so retrieval-side ideas are cheap. Training changes are not.
 - ConZIC: iterative sampling is a natural place to experiment but is slow.
@@ -233,6 +261,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 
 **Time / effort: about 20-32 h topic-specific, about 80-92 h overall (low).** Setup 4-8 h, modification 8-12 h, experiments 8-12 h. Least coding, but expect extra time to find and defend an original research gap (20% of the grade). Estimate, not verified.
 
+**Fit with lecture requirements: strong.** Same classification setting as TDA, and Tip-Adapter's cache is literally a learned nearest-neighbour classifier, so KNN and random baselines are trivial. Hyperparameter analysis (shots, alpha, beta) is built in. The weakness is still originality of the gap, not the requirements.
+
 **Code improvement feasibility: Low-medium**
 - Simple code, easy to modify, but the method is old and heavily studied, so originality of a gap (20% of grade) is harder to argue.
 
@@ -255,6 +285,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 - Trivial inference, very visual results, pretrained weights, active ecosystem.
 
 **Time / effort: about 24-58 h topic-specific, about 85-118 h overall (medium, wide range).** Setup 4-8 h, modification 10-25 h (depends on what the modification turns out to be), experiments 10-25 h. The uncertainty is the gap definition, not the compute. Estimate, not verified.
+
+**Fit with lecture requirements: weak.** KNN and random baselines do not map naturally onto dense depth estimation (a constant-depth or mean-depth baseline would be the closest analogue, which the instructor may or may not accept). Hyperparameter analysis is limited for a pretrained model. This lowers it further as a backup.
 
 **Code improvement feasibility: Unclear**
 - It is not obvious what to modify without training. Evaluation-style projects (robustness analysis) are feasible, but "originality" is harder.
@@ -296,14 +328,16 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 - [ ] In parallel, run a quick feasibility test of one backup (ClearCLIP on VOC, or PatchCore on MVTec `bottle`).
 - [ ] Open the final paper on openaccess.thecvf.com and confirm venue/year.
 - [ ] Skim key references (for TDA: CLIP, TPT, CoOp, Tip-Adapter).
-- [ ] Pick one gap and write one measurable hypothesis.
+- [ ] Pick one gap and write one measurable hypothesis. Plan the two experiment parts (hyperparameter analysis, then design modification) and the KNN and random baselines the lectures require.
+- [ ] Ask the instructor: (a) what KNN / random baselines mean outside classification, (b) whether the 15% paper analysis is the Stage 2/3 deliverables, (c) which schedule applies (Lecture 7's 3+3 weeks or the PDF dates), (d) whether a review template is expected.
 - [ ] Write the 1-page abstract (due 13 Dec). Keep track of AI-tool use for the required declaration in later reports.
 - [ ] Mirror the final choice into the Notion course page.
 - [ ] Record dataset paths, seeds, and environment in a README once code is added.
 
 ## 6. Sources
 
-- Project brief: `MSAI6330_project.pdf`
+- Project brief: `MSAI6330_project.pdf`; course outline: `../MSAI6330_Outline_1261.pdf`
+- Lecture notes: course Notion page (Lectures 1, 5, 7 for project guidance)
 - TDA: https://github.com/kdiAAA/TDA, https://kdiaaa.github.io/tda, https://openaccess.thecvf.com/content/CVPR2024/html/Karmanov_Efficient_Test-Time_Adaptation_of_Vision-Language_Models_CVPR_2024_paper.html
 - Tip-Adapter: https://github.com/gaopengcuhk/Tip-Adapter, https://www.ecva.net/papers/eccv_2022/papers_ECCV/html/154_ECCV_2022_paper.php
 - BoostAdapter (NeurIPS 2024, ineligible): https://proceedings.neurips.cc/paper_files/paper/2024/hash/7d60bfd8458b67acbbaf18b892338d00-Abstract.html
