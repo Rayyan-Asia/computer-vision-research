@@ -70,7 +70,7 @@ Summary:
 | Rank | Topic | Paper(s) | Resource fit | Improvement feasibility |
 |------|-------|----------|--------------|-------------------------|
 | 1 | Test-time adaptation of CLIP | **TDA** (CVPR 2024) | Best | High |
-| 2 | Training-free open-vocab segmentation | **ClearCLIP / SCLIP** (ECCV 2024, confirm venue) | Good [!] | Medium-high |
+| 2 | Training-free open-vocab segmentation | **ClearCLIP / SCLIP** (ECCV 2024) | Good [!] | Medium-high |
 | 3 | Industrial anomaly detection | **PatchCore** (CVPR 2022) | Uncertain [!] | Medium-high |
 | 4 | Retrieval-augmented / zero-shot captioning | **SmallCap / ConZIC** (CVPR 2023) | Uncertain [!] | Medium |
 | 5 | Training-free few-shot CLIP adaptation | **Tip-Adapter** (ECCV 2022) | Best | Low-medium |
@@ -152,12 +152,12 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 
 ---
 
-### Rank 2. Training-free open-vocabulary semantic segmentation: ClearCLIP / SCLIP (ECCV 2024 **[M]**)
+### Rank 2. Training-free open-vocabulary semantic segmentation: ClearCLIP / SCLIP (ECCV 2024 **[V]**)
 
 **What it is**: CLIP gives noisy dense (patch-level) predictions. ClearCLIP removes the residual connection and FFN and uses self-self attention in the last layer **[V]**; SCLIP replaces the last self-attention with correlative self-attention **[V]**. No training.
 
 **What needs to be done**
-1. Confirm the ECCV 2024 listing for the chosen paper first.
+1. Venue is confirmed (ECCV 2024, see links below); skim the official ECVA page for the final paper details.
 2. Clone the repo, install, run on PASCAL VOC (small) with a ViT-B/16 CLIP.
 3. Reproduce mIoU for the baseline CLIP and the method.
 4. Implement the extension, test on 2-3 benchmarks, analyse failures (small objects, background class).
@@ -177,8 +177,8 @@ Spread over about 9.5 weeks, roughly 85-100 h is about **9-10 h/week** (TDA) and
 - **[!] DISCLAIMER**: memory/time at ADE20K/Cityscapes resolution and sliding-window inference on 16 GB or free Colab is unverified. Start with VOC.
 
 **References / links**
-- ClearCLIP code: https://github.com/mc-lan/ClearCLIP, arXiv https://arxiv.org/abs/2407.12442
-- SCLIP code: https://github.com/wangf3014/SCLIP, arXiv https://arxiv.org/abs/2312.01597
+- ClearCLIP code: https://github.com/mc-lan/ClearCLIP, ECCV 2024 page https://ecva.net/papers/eccv_2024/papers_ECCV/html/6346_ECCV_2024_paper.php, arXiv https://arxiv.org/abs/2407.12442
+- SCLIP code: https://github.com/wangf3014/SCLIP, ECCV 2024 poster https://eccv2024.ecva.net/virtual/2024/poster/1518, arXiv https://arxiv.org/abs/2312.01597
 
 ---
 
